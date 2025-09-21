@@ -1,6 +1,6 @@
 # Why a Single CPU Socket with Higher Clock Speed Outperforms Dual-Socket Systems for Micro-BNG
 
-When it comes to building high-performance **virtual Broadband Network Gateways (vBNG or Micro-BNG)**, hardware choice is critical. Many engineers assume that adding more CPUs (dual-socket systems) automatically means better performance. In reality, for packet processing workloads like Micro-BNG built on **VPP (Vector Packet Processing) and DPDK**, the opposite is often true.
+When it comes to building high-performance **virtual Broadband Network Gateways (Micro-BNG)**, hardware choice is critical. Many engineers assume that adding more CPUs (dual-socket systems) automatically means better performance. In reality, for packet processing workloads like Micro-BNG built on **VPP (Vector Packet Processing) and DPDK**, the opposite is often true.
 
 In this article, we’ll explore why **a single CPU socket with maximum cores, higher clock speed, and strong per-core performance** is better than dual-socket architectures for Micro-BNG, and how NUMA architecture plays a crucial role in this decision.
 
