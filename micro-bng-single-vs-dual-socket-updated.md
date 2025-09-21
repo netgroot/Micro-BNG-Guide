@@ -1,6 +1,6 @@
 # Why a Single CPU Socket with Higher Clock Speed Outperforms Dual-Socket Systems for Micro-BNG
 
-When it comes to building high-performance **virtual Broadband Network Gateways (vBNG or Micro-BNG)**, hardware choice is critical. Many engineers assume that adding more CPUs (dual-socket systems) automatically means better performance. In reality, for packet processing workloads like Micro-BNG built on **VPP (Vector Packet Processing) and DPDK**, the opposite is often true.
+When it comes to building high-performance **virtual Broadband Network Gateways (vBNG)**, hardware choice is critical. Many engineers assume that adding more CPUs (dual-socket systems) automatically means better performance. In reality, for packet processing workloads like Micro-BNG built on **VPP (Vector Packet Processing) and DPDK**, the opposite is often true.
 
 In this article, we’ll explore why **a single CPU socket with maximum cores, higher clock speed, and strong per-core performance** is better than dual-socket architectures for Micro-BNG, why Hyper-Threading should be disabled, and how NUMA architecture plays a crucial role in this decision.
 
@@ -51,7 +51,7 @@ Unlike generic cloud applications, Micro-BNG performance isn’t about how many 
 - **Scaling with Cores:** A single socket with 32–64 high-performance cores scales linearly when each core runs a vBNG worker.  
 
 Example:  
-- A **64-core AMD EPYC (single socket, 2.6–3.0 GHz)** can outperform a **dual 22-core Intel Xeon (2.2 GHz each)** because all cores are local, faster, and avoid NUMA overhead.  
+- A **32-core AMD EPYC (single socket, 2.6–3.0 GHz)** can outperform a **dual 22-core Intel Xeon (2.2 GHz each)** because all cores are local, faster, and avoid NUMA overhead.  
 
 ---
 
@@ -80,11 +80,11 @@ In short: **Hyper-Threading reduces efficiency for packet processing. Disable it
 
 ## Micro-BNG’s Packet Processing Reality
 
-Micro-BNG relies on **VPP workers** to handle PPPoE, NAT44, QoS, and routing at line speed. Here’s how the architecture ties into CPU design:
+Micro-BNG relies on **VPP workers** to handle PPPoE, CGNAT, QoS, and routing at line speed. Here’s how the architecture ties into CPU design:
 
 1. **NIC queues are mapped directly to CPU cores** → better when all cores belong to the same socket.  
 2. **VPP Workers pin to specific cores** → higher clock speed = higher per-worker PPS.  
-3. **Control plane (Accel-PPP, RADIUS, ACS, etc.)** runs on separate non-isolated cores, but doesn’t require massive parallelization.  
+3. **Micro-BNG Control plane** runs on separate non-isolated cores, but doesn’t require massive parallelization.  
 
 By choosing a single, strong CPU socket and disabling HT:  
 - You eliminate **cross-socket memory transfers**.  
